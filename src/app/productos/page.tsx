@@ -18,7 +18,6 @@ export default function ProductosPage() {
 
   useEffect(() => {
     cargarProductos();
-    console.log('Cargando productos...', productos);
   }, []);
 
   return (

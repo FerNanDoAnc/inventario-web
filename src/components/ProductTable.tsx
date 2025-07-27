@@ -52,6 +52,7 @@ const ProductsTable = ({ productos, onEdit, onDelete, itemsPerPage = 8,  current
       <thead>
           <tr className="bg-gray-200">
             <th className="py-2 px-4 border">Nombre</th>
+            <th className="py-2 px-4 border">Descripción</th>
             <th className="py-2 px-4 border">Precio</th>
             <th className="py-2 px-4 border">Stock</th>
             <th className="py-2 px-4 border">Categoría</th>
@@ -62,6 +63,7 @@ const ProductsTable = ({ productos, onEdit, onDelete, itemsPerPage = 8,  current
         {currentProducts.map((product) => (
           <tr key={product.Id}>
             <td className="py-2 px-4">{product.Name}</td>
+            <td className="py-2 px-4">{product.Description}</td>
             <td className="py-2 px-4">
               {typeof product.Price === 'number'
                 ? `$${product.Price.toFixed(2)}`
