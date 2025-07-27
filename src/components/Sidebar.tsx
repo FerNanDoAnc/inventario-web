@@ -20,7 +20,7 @@ export default function Sidebar({ onSelect }: { onSelect: (id: number | null) =>
           <li
             key={cat.Id}
             className="list-group-item"
-            onClick={() => onSelect(cat.Id)}
+            onClick={() => onSelect(cat.Id || null)}
             style={{ cursor: 'pointer' }}
           >
             {cat.Name}

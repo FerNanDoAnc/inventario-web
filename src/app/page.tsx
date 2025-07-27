@@ -6,8 +6,9 @@ import EditModal from './productos/EditModal';
 import AddModal from './productos/AddModal';
 import { Categoria, Producto } from '@/types';
 import ProductsTable from '@/components/ProductTable';
-import { obtenerProductos } from '@/services/productos.service';
+import { eliminarProducto, obtenerProductos } from '@/services/productos.service';
 import { obtenerCategorias } from '@/services/categorias.service';
+import { FaPlus } from 'react-icons/fa';
 
 export default function HomePage() {
   const [products, setProducts] = useState<Producto[]>([]);
@@ -15,6 +16,12 @@ export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Producto | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handleCategoryChange = (categoryId: number) => {
+    setSelectedCategory(categoryId);
+    setCurrentPage(1); // Reinicia la paginación
+  };
 
   const fetchProducts = async () => {
     const res = await obtenerProductos();
@@ -35,22 +42,37 @@ export default function HomePage() {
     ? products.filter(p => p.CategoryId === selectedCategory)
     : products;
 
+  const handleDelete = async (id: number) => {
+    if (confirm('¿Estás seguro de eliminar este producto?')) {
+      try {
+        await eliminarProducto(id);
+        alert('Producto eliminado correctamente');
+        fetchProducts();
+      } catch (error) {
+        console.error('Error al eliminar el producto:', error);
+      }
+    }
+  }
+
   return (
     <div className="container mt-4">
-      <h1>Inventario de Productos</h1>
+      <h1 className="fw-bold">Inventario de Productos</h1>
 
-      <div className="row mb-3">
+      <div className="row mb-3 mt-5">
         <div className="col-md-3">
-          <h5>Categorías</h5>
+          <h4 className="mb-4 fw-bolder">Categorías</h4>
           <ul className="list-group">
-            <li className={`list-group-item`} onClick={() => setSelectedCategory(0)}>
+            <li
+              className={`list-group-item ${selectedCategory === 0 ? 'active' : ''}`} 
+              role="button" onClick={() => handleCategoryChange(0)}>
               Todas
             </li>
             {categories.map(cat => (
               <li
                 key={cat.Id}
-                className={`list-group-item`}
-                onClick={() => setSelectedCategory(cat.Id || 0)}
+                className={`list-group-item ${selectedCategory === cat.Id ? 'active' : ''}`}
+                role="button"
+                onClick={() => handleCategoryChange(cat.Id || 0)}
               >
                 {cat.Name}
               </li>
@@ -58,14 +80,21 @@ export default function HomePage() {
           </ul>
         </div>
 
-        <div className="col-md-9">
-          <button className="btn btn-primary mb-2" onClick={() => setShowAddModal(true)}>
-            Agregar Producto
-          </button>
-          <ProductsTable
-            productos={filteredProducts}
-            onEdit={product => setEditingProduct(product)}
-          />
+        <div className="col-md-9 ps-4">
+          <div className="d-flex justify-content-end mb-2">
+            <button className="btn btn-primary py-2" onClick={() => setShowAddModal(true)}>
+              <FaPlus className="me-1" /> Agregar Producto
+            </button>
+          </div>
+          <div className="d-flex justify-content-end mb-2">
+            <ProductsTable
+              productos={filteredProducts}
+              onEdit={product => setEditingProduct(product)}
+              onDelete={handleDelete}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          </div>
         </div>
       </div>
 

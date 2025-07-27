@@ -20,3 +20,8 @@ export const editarProducto = async (id: number, producto: Omit<Producto, 'Id'>)
   const res = await api.put(`/Products/${id}`, producto);
   return res.data;
 };
+
+export const eliminarProducto = async (id: number) => {
+  const res = await api.delete(`/Products/${id}`);
+  return res.data;
+};
