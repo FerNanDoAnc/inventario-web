@@ -108,7 +108,7 @@ export default function HomePage() {
 
   swalWithBootstrapButtons.fire({
     title: "¿Eliminar categoría?",
-    text: "Esta acción eliminará todos los productos asociados a esta categoría.",
+    text: "Esta acción es irreversible.",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Eliminar",
