@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { agregarProducto } from '@/services/productos.service';
 import { Categoria } from '@/types';
+import Swal from 'sweetalert2';
 
 interface AddModalProps {
   show: boolean;
@@ -23,7 +24,7 @@ export default function AddModal({ show, onClose, onProductAdded, categories }: 
   const handleSubmit = async () => {
     if (!name || !price || !stock || !categoryId || !categoryName) return alert('Todos los campos son requeridos.');
 
-    await agregarProducto({
+    const response = await agregarProducto({
         Name: name,
         Description: description,
         Price: parseFloat(price),
@@ -31,6 +32,19 @@ export default function AddModal({ show, onClose, onProductAdded, categories }: 
         CategoryId: parseInt(categoryId),
         CategoryName: categoryName,
     });
+
+    if (response.CategoryId) {
+      Swal.fire({
+        title: "Producto agregado",
+        icon: "success",
+      });
+    } else {
+      Swal.fire({
+        title: "Error al actualizar el producto",
+        text: response.mensaje,
+        icon: "error",
+      });
+    }
 
     onProductAdded();
     onClose();

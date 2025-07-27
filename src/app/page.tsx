@@ -9,6 +9,7 @@ import ProductsTable from '@/components/ProductTable';
 import { eliminarProducto, obtenerProductos } from '@/services/productos.service';
 import { obtenerCategorias } from '@/services/categorias.service';
 import { FaPlus } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 export default function HomePage() {
   const [products, setProducts] = useState<Producto[]>([]);
@@ -43,15 +44,38 @@ export default function HomePage() {
     : products;
 
   const handleDelete = async (id: number) => {
-    if (confirm('¿Estás seguro de eliminar este producto?')) {
-      try {
-        await eliminarProducto(id);
-        alert('Producto eliminado correctamente');
-        fetchProducts();
-      } catch (error) {
-        console.error('Error al eliminar el producto:', error);
-      }
-    }
+    const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+            confirmButton: "btn btn-danger px-4 py-2 ms-4",
+            cancelButton: "btn btn-secondary px-4 py-2 me-4"
+            },
+            buttonsStyling: false
+        });
+        swalWithBootstrapButtons.fire({
+            title: "¿Eliminar producto?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Eliminar",
+            cancelButtonText: "Cancelar",
+            reverseButtons: true
+        }).then(async (result) => {
+            if (result.isConfirmed){
+            const response = await eliminarProducto(id);
+            console.log(response);
+            if (response.exito===true) {
+                swalWithBootstrapButtons.fire({
+                title: "Producto eliminado",
+                text: response.mensaje,
+                icon: "success"
+                }).then(() => {
+                    fetchProducts();
+                    if (editingProduct?.Id === id) {
+                        setEditingProduct(null);
+                    }      
+                });
+              }
+            }
+        });
   }
 
   return (

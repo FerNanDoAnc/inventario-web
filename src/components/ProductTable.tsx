@@ -7,6 +7,8 @@ import AddModal from '../app/productos/AddModal';
 import EditModal from '@/app/productos/EditModal';
 import { Producto } from '@/types';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import Swal from 'sweetalert2';
+import { eliminarProducto } from '@/services/productos.service';
 
 interface Props {
   productos: Producto[];
@@ -42,8 +44,7 @@ const ProductsTable = ({ productos, onEdit, onDelete, itemsPerPage = 8,  current
     updatePage(Math.min(activePage + 1, totalPages));
   };
 
-
-   const startIndex = (activePage - 1) * itemsPerPage;
+  const startIndex = (activePage - 1) * itemsPerPage;
   const currentProducts = productos.slice(startIndex, startIndex + itemsPerPage);
 
   return (
@@ -79,9 +80,10 @@ const ProductsTable = ({ productos, onEdit, onDelete, itemsPerPage = 8,  current
               <Button
                   className="btn btn-danger"
                   onClick={() => {
-                    if (confirm(`¿Estás seguro de eliminar el producto ${product.Name}?`)) {
-                      onDelete?.(product.Id || 0);
-                    }
+                    onDelete?.(product.Id || 0);
+                    // if (confirm(`¿Estás seguro de eliminar el producto ${product.Name}?`)) {
+                    //   onDelete?.(product.Id || 0);
+                    // }
                   }}
                 >
                   <FaTrash />

@@ -5,6 +5,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { editarProducto } from '@/services/productos.service';
 import { Categoria, Producto } from '@/types';
+import Swal from 'sweetalert2';
 
 interface EditModalProps {
   show: boolean;
@@ -38,7 +39,7 @@ export default function EditModal({ show, onClose, onProductUpdated, product, ca
   const handleSubmit = async () => {
     if (!name || !price || !stock || !categoryId || !categoryName) return alert('Todos los campos son requeridos.');
 
-    await editarProducto(
+    const response = await editarProducto(
         product?.Id || 0,
         {
             Id: id || 0,
@@ -50,6 +51,19 @@ export default function EditModal({ show, onClose, onProductUpdated, product, ca
             CategoryName: categoryName,
         }
     );
+
+    if (response.exito) {
+      Swal.fire({
+        title: "Producto actualizado",
+        icon: "success",
+      });
+    } else {
+      Swal.fire({
+        title: "Error al actualizar el producto",
+        text: response.mensaje,
+        icon: "error",
+      });
+    }
 
     onProductUpdated();
     onClose();
