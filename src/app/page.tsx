@@ -146,7 +146,6 @@ export default function HomePage() {
 
       <div className="row mb-3 mt-5">
         <div className="col-md-3">
-          {/* <h4 className="mb-4 fw-bolder">Categorías</h4> */}
           <div className="d-flex justify-content-between align-items-center mb-3 py-2">
             <h4 className="fw-bolder mb-0">Categorías</h4>
             <button
@@ -200,7 +199,8 @@ export default function HomePage() {
         </div>
 
         <div className="col-md-9 ps-4">
-          <div className="d-flex justify-content-end mb-2">
+          <div className="d-flex justify-content-between align-items-center py-1">
+            <h4 className="fw-bolder mb-0">Productos</h4>
             <button className="btn btn-success py-2" onClick={() => setShowAddModal(true)}>
               <FaPlus className="me-1" /> Agregar Producto
             </button>
