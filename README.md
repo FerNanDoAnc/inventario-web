@@ -1,3 +1,34 @@
+# Next.js App
+
+Este proyecto es una aplicación de gestión de productos construida con Next
+
+## 🚀 Instalación y Ejecución
+
+### 1. Clona el repositorio
+
+```bash
+git clone https://github.com/tu-usuario/productos-nextjs.git
+cd productos-nextjs
+```
+
+### 2. Instala las dependencias
+```bash
+npm install
+```
+
+### 3. Configura el archivo .env
+```bash
+DATABASE_URL="postgresql://usuario:contraseña@localhost:5432/mi_basededatos"
+```
+
+### 4. Levanta el servidor de desarrollo
+```bash
+npm run dev
+```
+
+##### ###################################################################
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
