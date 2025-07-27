@@ -48,8 +48,8 @@ const ProductsTable = ({ productos, onEdit, onDelete, itemsPerPage = 8,  current
   const currentProducts = productos.slice(startIndex, startIndex + itemsPerPage);
 
   return (
-    <div className="w-100 d-flex flex-column ">
-    <table className="border">
+    <div className="w-100 d-flex flex-column">
+    <table className="border  mt-3">
       <thead>
           <tr className="bg-gray-200">
             <th className="py-2 px-4 border">Nombre</th>
@@ -73,7 +73,7 @@ const ProductsTable = ({ productos, onEdit, onDelete, itemsPerPage = 8,  current
             </td>
             <td className="py-2 px-4">{product.Stock}</td>
             <td className="py-2 px-4">{product.CategoryName}</td>
-            <td className="py-2 px-4 d-flex justify-content-between">
+            <td className="py-2 px-3 d-flex justify-content-between">
               <Button className="btn btn-warning" onClick={() => onEdit?.(product)}>
                 <FaEdit />
               </Button>
@@ -81,9 +81,6 @@ const ProductsTable = ({ productos, onEdit, onDelete, itemsPerPage = 8,  current
                   className="btn btn-danger"
                   onClick={() => {
                     onDelete?.(product.Id || 0);
-                    // if (confirm(`¿Estás seguro de eliminar el producto ${product.Name}?`)) {
-                    //   onDelete?.(product.Id || 0);
-                    // }
                   }}
                 >
                   <FaTrash />
